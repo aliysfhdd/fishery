@@ -17,6 +17,8 @@ interface IBaseAction{
 
 export interface IGetDataPayload {
   listData: IResponseData[];
+  listArea: IResponseArea[];
+  listSize: IResponseSize[];
 }
 
 export interface ISortPayload {

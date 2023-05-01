@@ -18,13 +18,17 @@ const initialState:IState={
   filter:[],
   data:[],
   isLoading:false,
+  listCity:[],
+  listProvince:[],
+  listSize:[]
 }
 const appReducer =(state =initialState, action:IAppAction)=>{
   switch (action.type) {
     case DATA_ACTION.GET_DATA:
+      const payloadGetData=(action.payload as IGetDataPayload)
       // eslint-disable-next-line no-case-declarations
       const parsedListData:IData[]=
-        (action.payload as IGetDataPayload).listData
+        payloadGetData.listData
           .filter((data)=>data.uuid!==null)
           .map((data)=>
             ({
@@ -38,9 +42,16 @@ const appReducer =(state =initialState, action:IAppAction)=>{
               timestamp: data.timestamp
             } as IData)
           )
+
+      const parsedListCity= Array.from(new Set(payloadGetData.listArea.map((data)=>data.city) ))
+      const parsedListProvince= Array.from(new Set(payloadGetData.listArea.map((data)=>data.province)))
+      const parsedListSize= payloadGetData.listSize.map((data)=>isNaN(data.size) ? 0:  Number(data.size)).sort((a,b)=>a-b)
       return {
         ...state,
-        data:parsedListData
+        data:parsedListData,
+        listCity:parsedListCity,
+        listProvince:parsedListProvince,
+        listSize:parsedListSize,
       }
     case DATA_ACTION.SORT_DATA:
       const { sortBy }=(action.payload as ISortPayload)

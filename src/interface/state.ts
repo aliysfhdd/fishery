@@ -23,5 +23,8 @@ export interface IState{
   filter:IFilter[]
   search:string
   sortBy:ISort,
-  isLoading: boolean
+  isLoading: boolean,
+  listCity:string[],
+  listProvince:string[],
+  listSize:number[]
 }

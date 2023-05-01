@@ -8,10 +8,10 @@ export const fetchList= async ():Promise<IResponseData>  =>{
   return await store.read("list")
 }
 
-export const fetchOptArea= async ():Promise<IResponseData>  =>{
+export const fetchOptArea= async ():Promise<IResponseArea>  =>{
   return await store.read("option_area")
 }
-export const fetchOptSize= async ():Promise<IResponseData>  =>{
+export const fetchOptSize= async ():Promise<IResponseSize>  =>{
   return await store.read("option_size")
 }
 

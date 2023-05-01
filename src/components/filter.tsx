@@ -1,42 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IFilter } from "@/interface/state";
-import { TAB_TITLE } from "@/constant";
 import { filterBy } from "@/redux/actions";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import "./filter.scss"
-
-const LIST=[
-  'ACEH KOTA',
-  'CIMAHI',
-  'ACEH KOTA',
-  'CIMAHI',
-  'ACEH KOTA',
-  'CIMAHI',
-  'MEDAN',
-]
-const Filter = () => {
+const KEY_TO_FILTER={
+  Kota: 'listCity',
+  Provinsi: 'listProvince',
+  Jumlah:'listSize',
+}
+const FILTER_TO_DATA={
+  listCity:'areaKota',
+  listProvince:'areaProvinsi',
+  listSize:'size',
+}
+const Filter = ({ filterKey }:{filterKey: 'Kota' | 'Provinsi' | 'Jumlah'}) => {
   const [showDD, setShowDD] = useState(false);
-  const [filterCity, setFilterCity] = useState(new Set());
+  const [filterData, setFilterData] = useState(new Set());
+  const listFilter= useSelector((state:RootState)=>state.appReducer[KEY_TO_FILTER[filterKey]])
+  const existingFilter= useSelector((state:RootState)=>state.appReducer.filter)
+  const listData= useSelector((state:RootState)=>state.appReducer.data)
   const dispatch:AppDispatch=useDispatch()
-  const updateFilter =(city,checked)=>{
-    if(!checked) setFilterCity((current)=>{
-      current.delete(city)
+  const ref = useRef([]);
+
+  useEffect(() => {
+    setFilterData(new Set())
+    dispatch(filterBy([]))
+    for (const el of ref.current) {
+      el.checked=false
+    }
+  }, [listData]);
+
+  const updateFilter =(data,checked)=>{
+    if(!checked) setFilterData((current)=>{
+      current.delete(data)
       return current
     } )
-    else setFilterCity((current)=>{
-      current.add(city)
+    else setFilterData((current)=>{
+      current.add(data)
       return current
     })
   }
 
   const handleFilter =()=>{
-    const payload:IFilter[]=[
-      {
-        name:TAB_TITLE.Kota,
-        selected:Array.from(filterCity)
-      }
-    ]
+    let payload:IFilter[]
+    if(existingFilter.filter((filter)=>filter.name===FILTER_TO_DATA[KEY_TO_FILTER[filterKey]]).length!==0){
+      payload=existingFilter.map((filter)=>{
+        if(filter.name===FILTER_TO_DATA[KEY_TO_FILTER[filterKey]]){
+          filter.selected=Array.from(filterData)
+        }
+        return filter
+      })
+      console.log(payload)
+    }
+    else{
+      payload=[
+        {
+          name:FILTER_TO_DATA[KEY_TO_FILTER[filterKey]],
+          selected:Array.from(filterData)
+        },
+        ...existingFilter
+      ]
+    }
     dispatch(filterBy(payload))
     setShowDD(false)
   }
@@ -44,15 +69,15 @@ const Filter = () => {
     <div className="filter">
       <div className="filter__dd" onClick={()=>setShowDD((prevState)=>!prevState)}>
         <select>
-          <option>{filterCity.size ? Array.from(filterCity).slice(0,3).join(', '): 'Pilih Kota'}</option>
+          <option>{filterData.size ? Array.from(filterData).join(', '): 'Pilih '+filterKey}</option>
         </select>
         <div className="filter__over"></div>
       </div>
       <div className="filter__wrapper" style={{display:showDD? 'block':'none'}}>
         <div className="filter__opt">
-          {LIST.map((city,idx)=>
-            <label className='filter__label' htmlFor={''+idx} key={idx}>
-              <input type="checkbox" id={''+idx} onChange={(e)=>updateFilter(city,e.target.checked)}/>{city}
+          {listFilter.map((city,idx)=>
+            <label className='filter__label' htmlFor={''+idx+city} key={idx+city}>
+              <input ref={(element) => { ref.current[idx] = element }}  type="checkbox" id={''+idx+city} onChange={(e)=>updateFilter(city,e.target.checked)}/>{city}
             </label>
           )}
         </div>

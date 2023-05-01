@@ -1,13 +1,15 @@
 import { DATA_ACTION } from "@/interface/actions";
 import { ThunkAction } from "redux-thunk";
-import { addData, fetchList } from "@/api";
+import { addData, fetchList, fetchOptArea, fetchOptSize } from "@/api";
 import { IFilter, ISort } from "@/interface/state";
 
-export const setListData=(listData:IResponseData)=>{
+export const setListData= (listData,listArea,listSize)=>{
   return {
     type: DATA_ACTION.GET_DATA,
     payload: {
-      listData
+      listData,
+      listArea,
+      listSize
     }
   };
 }
@@ -16,8 +18,8 @@ export function getAllData():ThunkAction<void, any, any, any>{
   return async (dispatch) => {
     try{
       dispatch(setLoading(true))
-      const response = await fetchList()
-      dispatch(setListData(response))
+      const data = await Promise.all([fetchList(),fetchOptArea(), fetchOptSize()])
+      dispatch(setListData(...data))
       dispatch(setLoading(false))
     }
     catch (e) {

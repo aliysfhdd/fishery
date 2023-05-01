@@ -1,0 +1,20 @@
+.table__wrapper{
+  overflow-x: auto;
+}
+
+.table__main{
+  width: 100%;
+  border-collapse: collapse;
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even){background-color: #f2f2f2}
+
+  th {
+    background-color: #5c81b8;
+    color: white;
+  }
+}
+

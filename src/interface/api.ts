@@ -1,6 +1,13 @@
 interface IResponsePostData{
   updatedRange?:string
 }
+interface IResponseArea{
+  province:string,
+  city:string
+}
+interface IResponseSize{
+  size:number
+}
 interface IResponseData{
   uuid: string,
   komoditas: string,

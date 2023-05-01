@@ -3,10 +3,24 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  overflow: auto;
+}
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .home__header{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
+}
+.home__filter {
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 20px;
+  justify-content: center;
   margin-bottom: 20px;
 }
