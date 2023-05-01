@@ -22,5 +22,6 @@ export interface IState{
   data:IData[],
   filter:IFilter[]
   search:string
-  sortBy:ISort
+  sortBy:ISort,
+  isLoading: boolean
 }

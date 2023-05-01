@@ -5,6 +5,7 @@ export enum DATA_ACTION {
   SORT_DATA = 'SORT_DATA',
   SEARCH_DATA = 'SEARCH_DATA',
   FILTER_DATA = 'FILTER_DATA',
+  LOADING = 'LOADING',
 }
 
 export type APP_ACTION =
@@ -25,8 +26,12 @@ export interface ISortPayload {
 export interface ISearchPayload {
   search: string;
 }
+
 export interface IFilterPayload {
   filter:IFilter[]
+}
+export interface ILoadingPayload {
+  isLoading:boolean
 }
 export interface IAppAction extends IBaseAction {
   payload:
@@ -34,4 +39,5 @@ export interface IAppAction extends IBaseAction {
     | ISortPayload
     | ISearchPayload
     | IFilterPayload
+    | ILoadingPayload
 }

@@ -1,4 +1,6 @@
-
+interface IResponsePostData{
+  updatedRange?:string
+}
 interface IResponseData{
   uuid: string,
   komoditas: string,
@@ -8,4 +10,12 @@ interface IResponseData{
   price: string,
   tgl_parsed: string,
   timestamp: string
+}
+
+interface IFormData{
+  size:number,
+  price:number,
+  komoditas:string,
+  areaProvinsi:string,
+  areaKota:string
 }

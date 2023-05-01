@@ -1,9 +1,25 @@
 import React from 'react';
-import { IData } from "@/interface/state";
+import { IData, ISort } from "@/interface/state";
 import { TAB_TITLE } from "@/constant";
+import { sortBy } from "@/redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 
-const Table = ({datas, onSort}:{datas:IData[], onSort:(key)=>void}) => {
-  const handleSort=(event)=>{event.target.title && onSort(event.target.title)}
+const Table = ({datas}:{datas:IData[]}) => {
+  const dispatch:AppDispatch=useDispatch()
+  const sort= useSelector((state:RootState)=>state.appReducer.sortBy)
+  const handleSort= (e)=>{
+    const key=e.target.title
+    let asc=true
+    if(key===sort.key){
+      asc=!sort.asc
+    }
+    const payload:ISort={
+      key,
+      asc
+    }
+    dispatch(sortBy(payload))
+  }
   return (
     <table>
       <thead>
@@ -13,17 +29,20 @@ const Table = ({datas, onSort}:{datas:IData[], onSort:(key)=>void}) => {
         </tr>
       </thead>
       <tbody>
-      {datas.map((data,idx)=>
+      {
+        datas.length===0 ? <tr><td colSpan={7}>No Data</td></tr> :
+        datas.map((data,idx)=>
         <tr key={data.uuid}>
           <td>{idx+1}</td>
-          <td>{data.komoditas}</td>
-          <td>{data.areaKota}</td>
-          <td>{data.areaProvinsi}</td>
-          <td>{data.price}</td>
-          <td>{data.size}</td>
-          <td>{data.tglParsed.toDateString()}</td>
+          <td>{data.komoditas || '-'}</td>
+          <td>{data.areaKota || '-'}</td>
+          <td>{data.areaProvinsi || '-'}</td>
+          <td>{data.price || '-'}</td>
+          <td>{data.size || '-'}</td>
+          <td>{data.tglParsed.toDateString() || '-'}</td>
         </tr>
-      )}
+        )
+      }
       </tbody>
     </table>
   );

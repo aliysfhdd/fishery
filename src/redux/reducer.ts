@@ -2,7 +2,7 @@ import {
   DATA_ACTION,
   IAppAction,
   IFilterPayload,
-  IGetDataPayload,
+  IGetDataPayload, ILoadingPayload,
   ISearchPayload,
   ISortPayload
 } from "@/interface/actions";
@@ -12,11 +12,12 @@ import { combineReducers } from "redux";
 const initialState:IState={
   sortBy:{
     key:'',
-    asc:false
+    asc:true
   },
   search:'',
   filter:[],
-  data:[]
+  data:[],
+  isLoading:false,
 }
 const appReducer =(state =initialState, action:IAppAction)=>{
   switch (action.type) {
@@ -58,6 +59,12 @@ const appReducer =(state =initialState, action:IAppAction)=>{
       return {
         ...state,
         filter,
+      }
+    case DATA_ACTION.LOADING:
+      const {isLoading}=(action.payload as ILoadingPayload)
+      return {
+        ...state,
+        isLoading,
       }
     default:
       return state

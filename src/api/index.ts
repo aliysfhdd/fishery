@@ -7,3 +7,16 @@ const store = new SteinStore(
 export const fetchList= async ():Promise<IResponseData>  =>{
   return await store.read("list")
 }
+
+export const fetchOptArea= async ():Promise<IResponseData>  =>{
+  return await store.read("option_area")
+}
+export const fetchOptSize= async ():Promise<IResponseData>  =>{
+  return await store.read("option_size")
+}
+
+export const addData = async (data:IResponseData):Promise<IResponsePostData>  =>{
+  return await store.append("list",[
+    {...data}
+  ])
+}
