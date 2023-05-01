@@ -3,7 +3,7 @@ import { ThunkAction } from "redux-thunk";
 import { addData, fetchList, fetchOptArea, fetchOptSize } from "@/api";
 import { IFilter, ISort } from "@/interface/state";
 
-export const setListData= (listData,listArea,listSize)=>{
+export const setListData= (listData:IResponseData,listArea:IResponseArea,listSize:IResponseSize)=>{
   return {
     type: DATA_ACTION.GET_DATA,
     payload: {
@@ -33,13 +33,13 @@ export function postData(data:IFormData):ThunkAction<void, any, any, any>{
       dispatch(setLoading(true))
       const date=new Date();
       const response = await addData({
-        timestamp:+date,
-        tgl_parsed:date,
-        price:data.price,
-        size:data.size,
+        timestamp:''+date,
+        tgl_parsed:''+date,
+        price:''+data.price,
+        size:''+data.size,
         area_kota:data.areaKota,
         area_provinsi:data.areaProvinsi,
-        uuid:+date,
+        uuid:''+date,
         komoditas:data.komoditas
       } as IResponseData)
       dispatch(setLoading(false))
