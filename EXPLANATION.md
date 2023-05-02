@@ -1,0 +1,5 @@
+- Tampilan yang saya buat berfokus pada penampilan data secara keseluruhan, sehingga saya membuat tampilan tabel yang memberikan semua informasi setiap data yang ada
+- Fitur pencarian yang dibuat untuk mencari komoditas yang ada
+- Fitur filter yang dibuat untuk filter berdasarkan kota, provinsi, dan jumlah komoditas.
+- Fitur sort yang dibuat untuk mengurutkan berdasarkan semua informasi yang ada, dapat bersifat Ascending ataupun Descending, sorting tersebut dapat dilakukan dengan mengklik header table yang ada (seperti pada umumnya datatable).
+- Fitur add yang dibuat berbentuk popup, agar dari sisi pengguna tidak merasakan effort perpindahan page. Dan data akan terbarui apabila tindakan tersebut telah selesai
